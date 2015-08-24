@@ -1,0 +1,170 @@
+/**
+ *
+ * PROJECT: jamiegenovese.com
+ * LICENCE: Copyright 2015 Gabriel Gauci Maistre
+ * FILE: style.css
+ * PURPOSE: The Header for our theme. Displays all of the <head> section and everything up till <div id="container">
+ * DEVELOPERS: Gabriel Gauci Maistre <gabriel@gaucimaistre.com>
+ *
+ */
+
+/**
+ * Table of Contents:
+ *
+ * 1.0 - Basic Structure
+ * 2.0 - Navigation
+ * 3.0 - Content
+ * 4.0 - Media Queries
+ * 5.0 - Print
+ * -----------------------------------------------------------------------------
+ */
+
+/**
+ * 1.0 Basic Structure
+ * -----------------------------------------------------------------------------
+ */
+
+html, body {
+    height: 100%;
+    width: auto;
+    margin: 0px;
+}
+
+.wrapper {
+    height: 100%;
+    width: auto;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    position: relative;
+    white-space:nowrap
+}
+
+/**
+ * 2.0 Navigation
+ * -----------------------------------------------------------------------------
+ */
+
+.navbar {
+    height: 100%;
+    max-width: 230px;
+    float: left;
+}
+
+.navbar-nav,
+.navbar-nav > li,
+.navbar-header
+{float:none !important;}
+
+.social-icons {
+    padding: 50px 0px 0px 0px;
+    text-align: center;
+}
+
+.social-icons li {
+    display: inline-block;
+}
+
+.social-icons img {
+    padding-right: 8px;
+}
+
+.copyright{
+    text-align: center;
+    font-size: x-small;
+    padding: 0px;
+    list-style-type: none;
+}
+
+.copyright a {
+    color: #777;
+    text-decoration: none !important;
+}
+
+/**
+ * 3.0 Content
+ * -----------------------------------------------------------------------------
+ */
+
+.content {
+    height: auto;
+    width: auto;
+    overflow: hidden;
+}
+
+.images {
+    height: 100%;
+    width: 100%;
+    padding-right: 2px;
+    position: absolute;
+}
+
+.images img {
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 0.01%;
+}
+
+.elevator {
+    display: inline-block;
+    height: 100%;
+}
+
+.elevator img {
+    height: auto;
+    vertical-align: middle;
+}
+
+/**
+ * 4.0 Media Queries
+ * -----------------------------------------------------------------------------
+ */
+
+@viewport {
+    width: device-width;
+    maximum-scale: 1.0;
+    minimum-scale: 1.0;
+    initial-scale: 1.0;
+    user-scalable: no;
+}
+
+@-ms-viewport {
+    width: device-width;
+    maximum-scale: 1.0;
+    minimum-scale: 1.0;
+    initial-scale: 1.0;
+    user-scalable: no;
+}
+
+@-o-viewport {
+    width: device-width;
+    maximum-scale: 1.0;
+    minimum-scale: 1.0;
+    initial-scale: 1.0;
+    user-scalable: no;
+}
+
+@media only screen
+and (max-width: 1024px) {
+
+    .navbar {
+        max-width: 135px;
+    }
+
+    .social-icons {
+        padding: 0px;
+    }
+}
+
+/**
+ * 5.0 Print
+ * -----------------------------------------------------------------------------
+ */
+
+@media print {
+    body {
+        background: none !important; /* Brute force since user agents all print differently. */
+        color: #2b2b2b;
+        font-size: 12pt;
+    }
+}
