@@ -7,9 +7,27 @@ export function extractImageIndex(filePath: string): number {
 }
 
 /**
- * Sorts an array of image file paths numerically by their embedded index.
+ * Sorts an array of daniela_N.jpg style paths numerically by their embedded index.
  * e.g. ['daniela_10.jpg', 'daniela_2.jpg'] → ['daniela_2.jpg', 'daniela_10.jpg']
  */
 export function sortImagePaths(paths: string[]): string[] {
   return [...paths].sort((a, b) => extractImageIndex(a) - extractImageIndex(b));
+}
+
+/**
+ * Extracts the bare filename (without directory) from a path.
+ */
+export function basename(filePath: string): string {
+  return filePath.split('/').pop() ?? filePath;
+}
+
+/**
+ * Sorts image paths alphabetically by their filename.
+ * Works naturally for sequentially named files (001.jpg, DSC_0042.jpg, etc.)
+ * and is case-insensitive.
+ */
+export function sortByFilename(paths: string[]): string[] {
+  return [...paths].sort((a, b) =>
+    basename(a).toLowerCase().localeCompare(basename(b).toLowerCase())
+  );
 }

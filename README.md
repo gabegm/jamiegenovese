@@ -59,15 +59,40 @@ To enable the contact form, make sure **Netlify Forms** is enabled in your Netli
 
 ## Content guide
 
-### Adding / replacing gallery photos
+### Adding photos to a gallery section
 
-1. Drop `daniela_N.jpg` files into `src/assets/`
-2. The gallery page uses `import.meta.glob` to pick up all matching files automatically — no code changes needed
-3. Images are sorted numerically by their filename index
+Each section has its own folder under `src/assets/galleries/`:
 
-### Updating nav section links
+```
+src/assets/galleries/
+├── portraits/    ← drop portrait photos here
+├── fashion/
+├── landscape/
+├── street/
+├── abstract/
+├── editorial/
+├── events/
+└── projects/
+```
 
-Edit the `navLinks` array in `src/components/Nav.astro`.
+**To add photos:**
+1. Copy your image files (`.jpg`, `.jpeg`, `.png`, or `.webp`) into the relevant folder
+2. Commit and push — the site rebuilds automatically on Netlify
+
+Photos are sorted alphabetically by filename, so prefix them to control order:
+```
+001_studio-shoot.jpg
+002_outdoor.jpg
+003_closeup.jpg
+```
+
+The site automatically converts all images to WebP and applies lazy loading — no extra steps needed.
+
+**Empty sections** show a "No photos yet" message until photos are added.
+
+### Updating nav section links or labels
+
+Edit `src/data/sections.ts` — this is the single source of truth for the 8 gallery sections (slug, label, page description).
 
 ### Updating the About / CV page
 
@@ -75,4 +100,4 @@ Edit `src/pages/about.astro` — look for the `<!-- Add ... here -->` comments.
 
 ### Social media links
 
-Edit the `<ul>` of social icon `<a>` tags in `src/components/Nav.astro`.
+Edit the social icon `<ul>` in `src/components/Nav.astro`.
