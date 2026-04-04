@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import { sortByFilename } from '../utils/images';
+
+type ImageModule = { default: ImageMetadata };
+
+// Show all photos from all sections on the home page
+const rawImages = import.meta.glob<ImageModule>(
+  '../assets/galleries/**/*.{jpg,jpeg,png,webp,JPG,JPEG}'
+);
+
+const images = await Promise.all(
+  sortByFilename(Object.keys(rawImages)).map(async (key, idx) => {
+    const mod = await rawImages[key]();
+    return { img: mod.default, idx };
+  })
+);
+---
+
+<BaseLayout
+  title="Jamie Ian Genovese — Visual Arts"
+  description="Portfolio of Jamie Ian Genovese, photographer and visual artist."
+>
+  <div class="flex h-screen overflow-hidden">
+    <Nav />
+
+    <main
+      id="gallery"
+      class="flex-1 h-full overflow-x-auto overflow-y-hidden flex items-stretch scroll-smooth"
+      style="scroll-snap-type: x mandatory;"
+      aria-label="Photo gallery"
+    >
+      {images.length === 0 && (
+        <div
+          class="h-full shrink-0 flex flex-col justify-center px-16 text-brand-muted dark:text-gray-500"
+          style="scroll-snap-align: start; min-width: 320px;"
+        >
+          <p class="text-lg font-display font-bold text-brand dark:text-gray-100 mb-2">No photos yet</p>
+          <p class="text-sm">Add images to any folder under<br/><code class="bg-gray-100 dark:bg-gray-800 px-1 rounded">src/assets/galleries/</code></p>
+        </div>
+      )}
+
+      {images.map(({ img, idx }) => (
+        <figure class="h-full shrink-0 m-0" style="scroll-snap-align: start;">
+          <Image
+            src={img}
+            alt={`Jamie Ian Genovese — photograph ${idx + 1}`}
+            class="h-full w-auto object-cover"
+            loading="eager"
+            fetchpriority={idx < 3 ? 'high' : 'low'}
+            format="webp"
+            quality={82}
+          />
+        </figure>
+      ))}
+
+      <!-- Back-to-start button -->
+      <div class="flex items-center px-4 shrink-0">
+        <button
+          onclick="document.getElementById('gallery').scrollTo({ left: 0, behavior: 'smooth' })"
+          aria-label="Back to start"
+          class="p-2 text-brand-muted dark:text-gray-500 hover:text-brand dark:hover:text-gray-100 transition-colors"
+        >
+          <svg class="w-8 h-8 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </main>
+  </div>
+</BaseLayout>

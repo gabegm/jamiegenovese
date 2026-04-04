@@ -1,0 +1,131 @@
+---
+import { gallerySections } from '../data/sections';
+import ThemeToggle from './ThemeToggle.astro';
+
+const navLinks = gallerySections.map(({ slug, label }) => ({
+  label,
+  href: `/gallery/${slug}`,
+}));
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="flex flex-col justify-between h-full w-48 shrink-0 px-5 py-6 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-colors duration-200">
+  <!-- Logo -->
+  <div>
+    <a href="/" aria-label="Jamie Ian Genovese — Home">
+      <img
+        src="/img/logo.png"
+        alt="Jamie Ian Genovese"
+        class="max-w-full mb-8 dark:invert dark:opacity-80"
+        width="160"
+        loading="eager"
+      />
+    </a>
+
+    <!-- Nav links -->
+    <ul class="space-y-1 text-sm font-display font-semibold uppercase tracking-wider">
+      {navLinks.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            aria-current={currentPath === href ? 'page' : undefined}
+            class:list={[
+              'block py-1 transition-colors duration-150',
+              currentPath === href
+                ? 'text-brand dark:text-gray-100'
+                : 'text-brand-muted dark:text-gray-400 hover:text-brand dark:hover:text-gray-100',
+            ]}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+      <!-- About / CV / Contact -->
+      <li class="pt-2 border-t border-gray-100 dark:border-gray-700">
+        <a
+          href="/about"
+          aria-current={currentPath === '/about' ? 'page' : undefined}
+          class:list={[
+            'block py-1 transition-colors duration-150',
+            currentPath === '/about'
+              ? 'text-brand dark:text-gray-100'
+              : 'text-brand-muted dark:text-gray-400 hover:text-brand dark:hover:text-gray-100',
+          ]}
+        >
+          About
+        </a>
+      </li>
+      <li>
+        <a
+          href="/about#cv"
+          class="block py-1 text-brand-muted dark:text-gray-400 hover:text-brand dark:hover:text-gray-100 transition-colors duration-150"
+        >
+          CV
+        </a>
+      </li>
+      <li>
+        <a
+          href="/contact"
+          aria-current={currentPath === '/contact' ? 'page' : undefined}
+          class:list={[
+            'block py-1 transition-colors duration-150',
+            currentPath === '/contact'
+              ? 'text-brand dark:text-gray-100'
+              : 'text-brand-muted dark:text-gray-400 hover:text-brand dark:hover:text-gray-100',
+          ]}
+        >
+          Contact
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Social icons + theme toggle + copyright -->
+  <div>
+    <ul class="flex flex-wrap gap-2 justify-center mb-4">
+      <!-- Facebook -->
+      <li>
+        <a href="https://www.facebook.com/jigenovese" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg class="w-5 h-5 text-brand-muted dark:text-gray-500 hover:text-brand dark:hover:text-gray-100 transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
+          </svg>
+        </a>
+      </li>
+      <!-- Instagram -->
+      <li>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg class="w-5 h-5 text-brand-muted dark:text-gray-500 hover:text-brand dark:hover:text-gray-100 transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+        </a>
+      </li>
+      <!-- Tumblr -->
+      <li>
+        <a href="https://www.tumblr.com/" target="_blank" rel="noopener noreferrer" aria-label="Tumblr">
+          <svg class="w-5 h-5 text-brand-muted dark:text-gray-500 hover:text-brand dark:hover:text-gray-100 transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.588 2.371.79.023 1.958-.227 2.588-.551l1.228 3.145c-.595.315-2.029.788-4.148.788z"/>
+          </svg>
+        </a>
+      </li>
+      <!-- Flickr -->
+      <li>
+        <a href="https://www.flickr.com/" target="_blank" rel="noopener noreferrer" aria-label="Flickr">
+          <svg class="w-5 h-5 text-brand-muted dark:text-gray-500 hover:text-brand dark:hover:text-gray-100 transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M0 12c0 3.314 2.686 6 6 6s6-2.686 6-6-2.686-6-6-6-6 2.686-6 6zm12 0c0 3.314 2.686 6 6 6s6-2.686 6-6-2.686-6-6-6-6 2.686-6 6z"/>
+          </svg>
+        </a>
+      </li>
+    </ul>
+
+    <div class="flex justify-center mb-3">
+      <ThemeToggle />
+    </div>
+
+    <p class="text-center text-xs text-brand-muted dark:text-gray-500">
+      <a href="https://gabriel.gaucimaistre.com" class="hover:text-brand dark:hover:text-gray-300 transition-colors">
+        &copy; {new Date().getFullYear()} Gabriel Gauci Maistre
+      </a>
+    </p>
+  </div>
+</nav>
