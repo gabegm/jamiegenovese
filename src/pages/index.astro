@@ -1,12 +1,25 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 
-// All gallery images
-const images = Array.from({ length: 39 }, (_, i) => ({
-  src: `/img/daniela_${i + 1}.jpg`,
-  alt: `Jamie Ian Genovese — photograph ${i + 1}`,
-}));
+type ImageModule = { default: ImageMetadata };
+
+const rawImages = import.meta.glob<ImageModule>('../assets/daniela_*.jpg');
+
+// Sort numerically by the number in the filename
+const images = await Promise.all(
+  Object.keys(rawImages)
+    .sort((a, b) => {
+      const numA = parseInt(a.match(/daniela_(\d+)\.jpg$/)?.[1] ?? '0', 10);
+      const numB = parseInt(b.match(/daniela_(\d+)\.jpg$/)?.[1] ?? '0', 10);
+      return numA - numB;
+    })
+    .map(async (key, idx) => {
+      const mod = await rawImages[key]();
+      return { img: mod.default, idx };
+    })
+);
 ---
 
 <BaseLayout
@@ -22,17 +35,15 @@ const images = Array.from({ length: 39 }, (_, i) => ({
       style="scroll-snap-type: x mandatory;"
       aria-label="Photo gallery"
     >
-      {images.map(({ src, alt }, idx) => (
-        <figure
-          class="h-full shrink-0 m-0"
-          style="scroll-snap-align: start;"
-        >
-          <img
-            src={src}
-            alt={alt}
+      {images.map(({ img, idx }) => (
+        <figure class="h-full shrink-0 m-0" style="scroll-snap-align: start;">
+          <Image
+            src={img}
+            alt={`Jamie Ian Genovese — photograph ${idx + 1}`}
             class="h-full w-auto object-cover"
             loading={idx < 3 ? 'eager' : 'lazy'}
-            decoding="async"
+            format="webp"
+            quality={82}
           />
         </figure>
       ))}
