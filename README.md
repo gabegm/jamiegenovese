@@ -27,24 +27,37 @@ npm test          # run unit tests
 
 ```
 src/
-├── assets/          # Gallery photos (daniela_*.jpg) — optimised to WebP at build
+├── assets/
+│   └── galleries/           # One folder per gallery section
+│       ├── portraits/        # Drop photos here — picked up automatically
+│       ├── fashion/
+│       ├── landscape/
+│       ├── street/
+│       ├── abstract/
+│       ├── editorial/
+│       ├── events/
+│       └── projects/
 ├── components/
-│   └── Nav.astro    # Sidebar navigation with SVG social icons
+│   └── Nav.astro             # Sidebar navigation with SVG social icons
+├── data/
+│   └── sections.ts           # Single source of truth for gallery sections
 ├── layouts/
-│   └── BaseLayout.astro  # HTML shell: meta, OG tags, font preconnect
+│   └── BaseLayout.astro      # HTML shell: meta, OG tags, font preconnect
 ├── pages/
-│   ├── index.astro  # Horizontal-scroll gallery (home page)
-│   ├── about.astro  # Bio + CV
-│   ├── contact.astro # Contact form (Netlify Forms)
-│   └── 404.astro    # Custom 404 page
+│   ├── gallery/
+│   │   └── [slug].astro      # Dynamic route — generates all 8 section pages
+│   ├── index.astro           # Horizontal-scroll gallery (home page, all photos)
+│   ├── about.astro           # Bio + CV
+│   ├── contact.astro         # Contact form (Netlify Forms)
+│   └── 404.astro             # Custom 404 page
 ├── styles/
-│   └── global.css   # Tailwind directives + Google Fonts import
+│   └── global.css            # Tailwind directives + Google Fonts import
 └── utils/
-    ├── images.ts    # Image path sorting utility
+    ├── images.ts             # Image sorting utilities
     └── __tests__/
         └── images.test.ts
 public/
-└── img/             # Static assets: logo, social icons
+└── img/                      # Static assets: logo, social icons
 ```
 
 ## Deployment
