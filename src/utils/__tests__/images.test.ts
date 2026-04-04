@@ -1,60 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { extractImageIndex, sortImagePaths, basename, sortByFilename } from '../images';
-
-describe('extractImageIndex', () => {
-  it('extracts the number from a standard daniela_N.jpg path', () => {
-    expect(extractImageIndex('../assets/daniela_1.jpg')).toBe(1);
-    expect(extractImageIndex('../assets/daniela_39.jpg')).toBe(39);
-  });
-
-  it('handles paths with directory segments', () => {
-    expect(extractImageIndex('/src/assets/daniela_12.jpg')).toBe(12);
-  });
-
-  it('returns 0 when no number is found', () => {
-    expect(extractImageIndex('logo.png')).toBe(0);
-    expect(extractImageIndex('')).toBe(0);
-  });
-
-  it('is case-insensitive on the extension', () => {
-    expect(extractImageIndex('daniela_7.JPG')).toBe(7);
-  });
-});
-
-describe('sortImagePaths', () => {
-  it('sorts paths numerically, not lexicographically', () => {
-    const input = [
-      '../assets/daniela_10.jpg',
-      '../assets/daniela_2.jpg',
-      '../assets/daniela_1.jpg',
-      '../assets/daniela_9.jpg',
-    ];
-    const expected = [
-      '../assets/daniela_1.jpg',
-      '../assets/daniela_2.jpg',
-      '../assets/daniela_9.jpg',
-      '../assets/daniela_10.jpg',
-    ];
-    expect(sortImagePaths(input)).toEqual(expected);
-  });
-
-  it('handles a fully ordered sequence of 39 images correctly', () => {
-    const sorted = Array.from({ length: 39 }, (_, i) => `daniela_${i + 1}.jpg`);
-    const shuffled = [...sorted].reverse();
-    expect(sortImagePaths(shuffled)).toEqual(sorted);
-  });
-
-  it('does not mutate the original array', () => {
-    const input = ['daniela_3.jpg', 'daniela_1.jpg'];
-    const original = [...input];
-    sortImagePaths(input);
-    expect(input).toEqual(original);
-  });
-
-  it('returns an empty array unchanged', () => {
-    expect(sortImagePaths([])).toEqual([]);
-  });
-});
+import { basename, sortByFilename } from '../images';
 
 describe('basename', () => {
   it('returns the filename from a path with directories', () => {
@@ -71,23 +16,35 @@ describe('basename', () => {
 });
 
 describe('sortByFilename', () => {
-  it('sorts alphabetically by filename, ignoring directory', () => {
+  it('sorts numerically — daniela_10 comes after daniela_2, not before', () => {
     const input = [
-      'galleries/portraits/DSC_003.jpg',
-      'galleries/portraits/DSC_001.jpg',
-      'galleries/portraits/DSC_002.jpg',
+      'galleries/portraits/daniela_10.jpg',
+      'galleries/portraits/daniela_2.jpg',
+      'galleries/portraits/daniela_1.jpg',
     ];
     const expected = [
-      'galleries/portraits/DSC_001.jpg',
-      'galleries/portraits/DSC_002.jpg',
-      'galleries/portraits/DSC_003.jpg',
+      'galleries/portraits/daniela_1.jpg',
+      'galleries/portraits/daniela_2.jpg',
+      'galleries/portraits/daniela_10.jpg',
     ];
     expect(sortByFilename(input)).toEqual(expected);
   });
 
+  it('sorts zero-padded names correctly', () => {
+    const input = ['003_shoot.jpg', '001_studio.jpg', '002_outdoor.jpg'];
+    const expected = ['001_studio.jpg', '002_outdoor.jpg', '003_shoot.jpg'];
+    expect(sortByFilename(input)).toEqual(expected);
+  });
+
+  it('handles the full 39-image daniela sequence', () => {
+    const sorted = Array.from({ length: 39 }, (_, i) => `daniela_${i + 1}.jpg`);
+    const shuffled = [...sorted].sort(() => Math.random() - 0.5);
+    expect(sortByFilename(shuffled)).toEqual(sorted);
+  });
+
   it('is case-insensitive', () => {
-    const input = ['b.jpg', 'A.jpg', 'c.jpg'];
-    expect(sortByFilename(input)).toEqual(['A.jpg', 'b.jpg', 'c.jpg']);
+    const input = ['B.jpg', 'a.jpg', 'C.jpg'];
+    expect(sortByFilename(input)).toEqual(['a.jpg', 'B.jpg', 'C.jpg']);
   });
 
   it('does not mutate the original array', () => {
@@ -101,3 +58,4 @@ describe('sortByFilename', () => {
     expect(sortByFilename([])).toEqual([]);
   });
 });
+
