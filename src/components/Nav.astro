@@ -1,8 +1,9 @@
 ---
 import { gallerySections } from '../data/sections';
 import ThemeToggle from './ThemeToggle.astro';
+import { baseUrl } from '../utils/images';
 
-const base = import.meta.env.BASE_URL;
+const base = baseUrl();
 
 const navLinks = gallerySections.map(({ slug, label }) => ({
   label,
