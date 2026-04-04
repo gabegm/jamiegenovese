@@ -1,6 +1,20 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/*
+ * Custom theme tokens — replaces tailwind.config.mjs in Tailwind v4.
+ * These map 1:1 to the utility classes used throughout the project
+ * (e.g. text-brand, font-display, dark:bg-gray-950).
+ */
+@theme {
+  --font-sans: 'Source Sans Pro', system-ui, sans-serif;
+  --font-display: 'Cabin', system-ui, sans-serif;
+
+  --color-brand: #2b2b2b;
+  --color-brand-muted: #777;
+}
+
+/* Dark mode via .dark class on <html> (set by ThemeToggle) */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
   html, body {
