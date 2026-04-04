@@ -18,6 +18,10 @@ updates:
         patterns:
           - tailwindcss
           - "@tailwindcss/*"
+    # Ignore major version bumps for packages that require manual migration
+    ignore:
+      - dependency-name: tailwindcss
+        update-types: ["version-update:semver-major"]
       dev-dependencies:
         dependency-type: development
     open-pull-requests-limit: 5
