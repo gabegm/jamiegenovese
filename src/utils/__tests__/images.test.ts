@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { basename, sortByFilename } from '../images';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { basename, sortByFilename, baseUrl } from '../images';
 
 describe('basename', () => {
   it('returns the filename from a path with directories', () => {
@@ -56,6 +56,27 @@ describe('sortByFilename', () => {
 
   it('returns an empty array unchanged', () => {
     expect(sortByFilename([])).toEqual([]);
+  });
+});
+
+describe('baseUrl', () => {
+  beforeEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it('returns "/" when BASE_URL is "/"', () => {
+    vi.stubEnv('BASE_URL', '/');
+    expect(baseUrl()).toBe('/');
+  });
+
+  it('appends trailing slash when BASE_URL has no trailing slash', () => {
+    vi.stubEnv('BASE_URL', '/jamiegenovese');
+    expect(baseUrl()).toBe('/jamiegenovese/');
+  });
+
+  it('does not double the trailing slash when BASE_URL already ends with "/"', () => {
+    vi.stubEnv('BASE_URL', '/jamiegenovese/');
+    expect(baseUrl()).toBe('/jamiegenovese/');
   });
 });
 

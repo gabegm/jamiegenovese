@@ -21,3 +21,12 @@ export function sortByFilename(paths: string[]): string[] {
     })
   );
 }
+
+/**
+ * Returns BASE_URL with a guaranteed trailing slash.
+ * import.meta.env.BASE_URL may or may not include one depending on the Astro
+ * version and the configured base value (e.g. '/jamiegenovese' vs '/').
+ */
+export function baseUrl(): string {
+  return import.meta.env.BASE_URL.replace(/\/?$/, '/');
+}
