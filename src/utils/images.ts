@@ -18,7 +18,8 @@ export function sortImagePaths(paths: string[]): string[] {
  * Extracts the bare filename (without directory) from a path.
  */
 export function basename(filePath: string): string {
-  return filePath.split('/').pop() ?? filePath;
+  const parts = filePath.split('/');
+  return parts[parts.length - 1];
 }
 
 /**
