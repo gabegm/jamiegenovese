@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import { gallerySections } from '../../data/sections';
+import { sortImagePaths } from '../../utils/images';
+
+export const getStaticPaths: GetStaticPaths = () =>
+  gallerySections.map(({ slug, label, description }) => ({
+    params: { slug },
+    props: { label, description },
+  }));
+
+interface Props {
+  label: string;
+  description: string;
+}
+
+const { label, description } = Astro.props;
+
+type ImageModule = { default: ImageMetadata };
+const rawImages = import.meta.glob<ImageModule>('../../assets/daniela_*.jpg');
+const images = await Promise.all(
+  sortImagePaths(Object.keys(rawImages)).map(async (key, idx) => {
+    const mod = await rawImages[key]();
+    return { img: mod.default, idx };
+  })
+);
+---
+
+<BaseLayout
+  title={`${label} — Jamie Ian Genovese`}
+  description={description}
+>
+  <div class="flex h-screen overflow-hidden">
+    <Nav />
+
+    <main
+      id="gallery"
+      class="flex-1 h-full overflow-x-auto overflow-y-hidden flex items-stretch scroll-smooth"
+      style="scroll-snap-type: x mandatory;"
+      aria-label={`${label} photo gallery`}
+    >
+      <!-- Section heading — visible as first "slide" -->
+      <div
+        class="h-full shrink-0 flex flex-col justify-center px-12 border-r border-gray-100"
+        style="scroll-snap-align: start; min-width: 280px;"
+      >
+        <h1 class="font-display text-4xl font-bold text-brand mb-3">{label}</h1>
+        <p class="text-brand-muted text-sm max-w-xs">{description}</p>
+      </div>
+
+      {images.map(({ img, idx }) => (
+        <figure class="h-full shrink-0 m-0" style="scroll-snap-align: start;">
+          <Image
+            src={img}
+            alt={`${label} — photograph ${idx + 1}`}
+            class="h-full w-auto object-cover"
+            loading={idx < 2 ? 'eager' : 'lazy'}
+            format="webp"
+            quality={82}
+          />
+        </figure>
+      ))}
+
+      <!-- Back-to-start -->
+      <div class="flex items-center px-4 shrink-0">
+        <button
+          onclick="document.getElementById('gallery').scrollTo({ left: 0, behavior: 'smooth' })"
+          aria-label="Back to start"
+          class="p-2 text-brand-muted hover:text-brand transition-colors"
+        >
+          <svg class="w-8 h-8 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </main>
+  </div>
+</BaseLayout>

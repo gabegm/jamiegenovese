@@ -1,14 +1,10 @@
 ---
-const navLinks = [
-  { label: 'Portraits', href: '/gallery/portraits' },
-  { label: 'Fashion', href: '/gallery/fashion' },
-  { label: 'Landscape', href: '/gallery/landscape' },
-  { label: 'Street', href: '/gallery/street' },
-  { label: 'Abstract', href: '/gallery/abstract' },
-  { label: 'Editorial', href: '/gallery/editorial' },
-  { label: 'Events', href: '/gallery/events' },
-  { label: 'Projects', href: '/gallery/projects' },
-];
+import { gallerySections } from '../data/sections';
+
+const navLinks = gallerySections.map(({ slug, label }) => ({
+  label,
+  href: `/gallery/${slug}`,
+}));
 
 const currentPath = Astro.url.pathname;
 ---
