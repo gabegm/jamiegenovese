@@ -60,13 +60,39 @@ public/
 └── img/                      # Static assets: logo, social icons
 ```
 
+## CI / CD
+
+### GitHub Actions
+
+| Workflow | Trigger | What it does |
+|---|---|---|
+| `ci.yml` | Every push & PR | Install → test → build; acts as a merge gate |
+| `deploy.yml` | Push to `master` | Same as CI, then deploys to **GitHub Pages** |
+
+**To enable GitHub Pages deployment:**
+1. Go to **Settings → Pages** in your GitHub repo
+2. Set *Source* to **GitHub Actions**
+3. Push to `master` — the `deploy.yml` workflow handles the rest
+
+The deploy workflow uses `actions/configure-pages` to automatically set the correct
+`base` path (e.g. `/jamiegenovese`) so asset URLs work whether the site lives at a
+subdirectory or a custom domain.
+
+### Dependabot
+
+`.github/dependabot.yml` opens weekly PRs to keep dependencies current:
+
+- **npm** packages — Astro and Tailwind updates are grouped into single PRs
+- **GitHub Actions** — workflow action versions are updated separately
+
 ## Deployment
 
-The site deploys automatically to Netlify on every push to `master`.
+### Netlify (alternative)
+
+The repo also includes `netlify.toml` for one-click Netlify deployment:
 
 1. Connect the GitHub repository to Netlify
 2. Netlify picks up `netlify.toml` — no manual config needed
-3. Set `NODE_VERSION = 20` (already set in `netlify.toml`)
 
 To enable the contact form, make sure **Netlify Forms** is enabled in your Netlify site settings (it is on by default for sites built on Netlify).
 
