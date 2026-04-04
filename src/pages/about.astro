@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+---
+
+<BaseLayout
+  title="About — Jamie Ian Genovese"
+  description="Learn about Jamie Ian Genovese, photographer and visual artist."
+>
+  <div class="flex h-screen overflow-hidden">
+    <Nav />
+
+    <main class="flex-1 overflow-y-auto px-12 py-10 max-w-3xl">
+      <h1 class="font-display text-3xl font-bold text-brand mb-6">About</h1>
+
+      <p class="text-brand-muted leading-relaxed mb-4">
+        Jamie Ian Genovese is a photographer and visual artist based in Malta. His work spans
+        portraiture, fashion, landscape, and documentary photography.
+      </p>
+
+      <p class="text-brand-muted leading-relaxed mb-10">
+        <!-- Add bio content here -->
+      </p>
+
+      <h2 id="cv" class="font-display text-xl font-bold text-brand mb-4">CV</h2>
+
+      <section class="mb-8">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-brand-muted mb-3">Education</h3>
+        <ul class="space-y-2 text-brand-muted">
+          <!-- Add education entries here -->
+          <li class="italic">To be completed.</li>
+        </ul>
+      </section>
+
+      <section class="mb-8">
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-brand-muted mb-3">Exhibitions</h3>
+        <ul class="space-y-2 text-brand-muted">
+          <!-- Add exhibition entries here -->
+          <li class="italic">To be completed.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-brand-muted mb-3">Publications</h3>
+        <ul class="space-y-2 text-brand-muted">
+          <!-- Add publication entries here -->
+          <li class="italic">To be completed.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</BaseLayout>

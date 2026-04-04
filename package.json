@@ -1,0 +1,29 @@
+{
+  "name": "jamiegenovese",
+  "version": "1.0.0",
+  "description": "Photography Portfolio Website",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabegm/jamiegenovese.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/gabegm/jamiegenovese/issues"
+  },
+  "homepage": "https://github.com/gabegm/jamiegenovese#readme",
+  "dependencies": {
+    "@astrojs/tailwind": "^6.0.2",
+    "astro": "^6.1.3",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^3.4.19"
+  }
+}
