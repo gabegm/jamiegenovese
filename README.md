@@ -7,7 +7,7 @@ Photography portfolio for Jamie Ian Genovese, built with [Astro](https://astro.b
 | Concern | Tool |
 |---|---|
 | Framework | [Astro 6](https://astro.build) — static output, zero JS by default |
-| CSS | [Tailwind CSS 3](https://tailwindcss.com) |
+| CSS | [Tailwind CSS 4](https://tailwindcss.com) — theme tokens defined in `global.css` via `@theme` |
 | Image optimisation | Astro `<Image>` + [sharp](https://sharp.pixelplumbing.com) — JPGs → WebP at build time |
 | Contact form | [Netlify Forms](https://docs.netlify.com/forms/setup/) — no backend required |
 | Testing | [Vitest](https://vitest.dev) |
@@ -51,7 +51,7 @@ src/
 │   ├── contact.astro         # Contact form (Netlify Forms)
 │   └── 404.astro             # Custom 404 page
 ├── styles/
-│   └── global.css            # Tailwind directives + Google Fonts import
+│   └── global.css            # Tailwind v4 entry point: @theme tokens, dark mode variant, base styles
 └── utils/
     ├── images.ts             # Image sorting utilities
     └── __tests__/

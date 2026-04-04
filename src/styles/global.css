@@ -6,7 +6,7 @@
  * (e.g. text-brand, font-display, dark:bg-gray-950).
  */
 @theme {
-  --font-sans: 'Source Sans Pro', system-ui, sans-serif;
+  --font-sans: 'Source Sans 3', system-ui, sans-serif;
   --font-display: 'Cabin', system-ui, sans-serif;
 
   --color-brand: #2b2b2b;
