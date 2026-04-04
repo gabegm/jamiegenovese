@@ -42,12 +42,12 @@ const images = await Promise.all(
   title={`${label} — Jamie Ian Genovese`}
   description={description}
 >
-  <div class="flex h-screen overflow-hidden">
+  <div class="flex h-screen overflow-hidden overscroll-none">
     <Nav />
 
     <main
       id="gallery"
-      class="flex-1 h-full overflow-x-auto overflow-y-hidden flex items-stretch scroll-smooth"
+      class="flex-1 h-full overflow-x-auto overflow-y-hidden overscroll-x-contain flex items-stretch scroll-smooth"
       style="scroll-snap-type: x mandatory;"
       aria-label={`${label} photo gallery`}
     >
