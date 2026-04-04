@@ -78,7 +78,8 @@ const images = await Promise.all(
             src={img}
             alt={`${label} — photograph ${idx + 1}`}
             class="h-full w-auto object-cover"
-            loading={idx < 2 ? 'eager' : 'lazy'}
+            loading="eager"
+            fetchpriority={idx < 2 ? 'high' : 'low'}
             format="webp"
             quality={82}
           />
