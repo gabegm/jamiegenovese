@@ -13,7 +13,7 @@ const navLinks = gallerySections.map(({ slug, label }) => ({
 const currentPath = Astro.url.pathname;
 ---
 
-<nav class="md:sticky md:left-0 z-10 flex flex-col justify-between h-full w-48 shrink-0 px-5 py-6 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-colors duration-200">
+<nav class="static md:sticky md:left-0 z-10 flex flex-col justify-between h-full w-48 shrink-0 px-5 py-6 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-colors duration-200">
   <!-- Logo -->
   <div>
     <a href={base} aria-label="Jamie Ian Genovese — Home">
