@@ -13,7 +13,42 @@ const navLinks = gallerySections.map(({ slug, label }) => ({
 const currentPath = Astro.url.pathname;
 ---
 
-<nav class="static md:sticky md:left-0 z-10 flex flex-col justify-between h-full w-48 shrink-0 px-5 py-6 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-colors duration-200">
+<!-- Mobile: hamburger button — only visible below md breakpoint -->
+<button
+  id="nav-open"
+  aria-label="Open navigation"
+  class="md:hidden fixed top-3 left-3 z-40 p-2 rounded bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-brand dark:text-gray-100 shadow"
+>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+  </svg>
+</button>
+
+<!-- Mobile: tap-outside backdrop -->
+<div id="nav-backdrop" class="md:hidden fixed inset-0 z-40 bg-black/40 hidden" aria-hidden="true"></div>
+
+<!--
+  Mobile:  fixed drawer, starts off-screen (-translate-x-full), slides in on open
+  Desktop: sticky sidebar, always visible in the flex row
+-->
+<nav
+  id="nav-drawer"
+  class="fixed inset-y-0 left-0 z-50 -translate-x-full transition-transform duration-300
+         md:sticky md:top-0 md:bottom-auto md:z-10 md:translate-x-0
+         flex flex-col justify-between h-full w-48 shrink-0 px-5 py-6
+         border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-colors duration-200"
+>
+  <!-- Mobile: close button -->
+  <button
+    id="nav-close"
+    aria-label="Close navigation"
+    class="md:hidden absolute top-3 right-3 p-1 text-brand-muted dark:text-gray-400 hover:text-brand dark:hover:text-gray-100 transition-colors"
+  >
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+
   <!-- Logo -->
   <div>
     <a href={base} aria-label="Jamie Ian Genovese — Home">
@@ -132,3 +167,30 @@ const currentPath = Astro.url.pathname;
     </p>
   </div>
 </nav>
+
+<script is:inline>
+  (function () {
+    var openBtn   = document.getElementById('nav-open');
+    var closeBtn  = document.getElementById('nav-close');
+    var drawer    = document.getElementById('nav-drawer');
+    var backdrop  = document.getElementById('nav-backdrop');
+
+    function openNav() {
+      if (!drawer || !backdrop) return;
+      drawer.classList.remove('-translate-x-full');
+      backdrop.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeNav() {
+      if (!drawer || !backdrop) return;
+      drawer.classList.add('-translate-x-full');
+      backdrop.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    if (openBtn)   openBtn.addEventListener('click', openNav);
+    if (closeBtn)  closeBtn.addEventListener('click', closeNav);
+    if (backdrop)  backdrop.addEventListener('click', closeNav);
+  })();
+</script>
