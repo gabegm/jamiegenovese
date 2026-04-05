@@ -17,7 +17,7 @@ const currentPath = Astro.url.pathname;
 <button
   id="nav-open"
   aria-label="Open navigation"
-  class="md:hidden fixed top-3 left-3 z-40 p-2 rounded bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-brand dark:text-gray-100 shadow"
+  class="md:hidden fixed top-3 left-3 z-40 p-2 rounded bg-white/80 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-700 text-brand dark:text-gray-100 shadow transition-opacity duration-500"
 >
   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
@@ -170,16 +170,20 @@ const currentPath = Astro.url.pathname;
 
 <script is:inline>
   (function () {
-    var openBtn   = document.getElementById('nav-open');
-    var closeBtn  = document.getElementById('nav-close');
-    var drawer    = document.getElementById('nav-drawer');
-    var backdrop  = document.getElementById('nav-backdrop');
+    var openBtn  = document.getElementById('nav-open');
+    var closeBtn = document.getElementById('nav-close');
+    var drawer   = document.getElementById('nav-drawer');
+    var backdrop = document.getElementById('nav-backdrop');
 
+    // --- drawer open/close ---
     function openNav() {
       if (!drawer || !backdrop) return;
       drawer.classList.remove('-translate-x-full');
       backdrop.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
+      // keep button visible while drawer is open
+      showBtn();
+      clearTimeout(hideTimer);
     }
 
     function closeNav() {
@@ -187,10 +191,44 @@ const currentPath = Astro.url.pathname;
       drawer.classList.add('-translate-x-full');
       backdrop.classList.add('hidden');
       document.body.style.overflow = '';
+      scheduleHide();
     }
 
-    if (openBtn)   openBtn.addEventListener('click', openNav);
-    if (closeBtn)  closeBtn.addEventListener('click', closeNav);
-    if (backdrop)  backdrop.addEventListener('click', closeNav);
+    if (openBtn)  openBtn.addEventListener('click', openNav);
+    if (closeBtn) closeBtn.addEventListener('click', closeNav);
+    if (backdrop) backdrop.addEventListener('click', closeNav);
+
+    // --- auto-hide logic ---
+    var hideTimer;
+
+    function showBtn() {
+      if (!openBtn) return;
+      openBtn.style.opacity = '1';
+      openBtn.style.pointerEvents = 'auto';
+    }
+
+    function hideBtn() {
+      if (!openBtn) return;
+      openBtn.style.opacity = '0';
+      openBtn.style.pointerEvents = 'none';
+    }
+
+    function scheduleHide() {
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(hideBtn, 3000);
+    }
+
+    // Tap anywhere on the page (outside the open drawer) to reveal the button
+    document.addEventListener('click', function (e) {
+      var isInsideDrawer = drawer && drawer.contains(e.target);
+      if (!isInsideDrawer) {
+        showBtn();
+        scheduleHide();
+      }
+    });
+
+    // Show on initial load, then fade after 3 s
+    showBtn();
+    scheduleHide();
   })();
 </script>
